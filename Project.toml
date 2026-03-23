@@ -1,0 +1,10 @@
+name = "TM_Test"
+uuid = "671c4dd3-746e-4e8d-a895-fa75b6c0cac5"
+authors = ["bergermann <dominik.bergermann@gmx.de>"]
+version = "0.1.0"
+
+[deps]
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[compat]
+StaticArrays = "1.9.18"
