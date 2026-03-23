@@ -5,7 +5,7 @@ Test package to implement a transfer matrix based 1d simulation of a MADMAX-like
 ## Installation
 Run:
 ```julia
-using Pkg; Pkg.add(url="https://github.com/bergermann/TM_Test.jl.git")
+using Pkg; Pkg.add(url="https://github.com/bergermann/TM_Test")
 ```
 
 ## Usage

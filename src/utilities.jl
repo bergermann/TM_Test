@@ -1,4 +1,6 @@
 
+export pos2dist, dist2pos, gen_freqs
+
 """
     pos2dist(position::Array{<:Real}; thickness::Real=1e-3)
 
