@@ -1,7 +1,7 @@
 
-using StaticArrays
+using StaticArrays, LinearAlgebra
 
-export transfer_matrix, Dist, Pos
+export Dist, Pos, transfer_matrix
 
 const c0 = 299792458.
 
@@ -14,7 +14,7 @@ abstract type Pos  <: Space end
 # transfer matrix algorithm for distance space input
 function transfer_matrix(::Type{Dist},freqs::Union{Real,AbstractVector{<:Real}},
         distances::AbstractVector{<:Real};
-        eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)::Matrix{ComplexF64}
+        eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)
 
     ϵ  = eps*(1.0-1.0im*tand)
     nd = sqrt(ϵ); nm = complex(nm)
@@ -22,7 +22,7 @@ function transfer_matrix(::Type{Dist},freqs::Union{Real,AbstractVector{<:Real}},
     A  = 1-1/ϵ
     A0 = 1-1/ϵm
 
-    R = Matrix{ComplexF64}(undef,length(freqs))
+    R = Vector{ComplexF64}(undef,length(freqs))
     B = similar(R)
 
     Gd = SMatrix{2,2,ComplexF64}((1+nd)/2,   (1-nd)/2,   (1-nd)/2,   (1+nd)/2)
@@ -62,7 +62,7 @@ function transfer_matrix(::Type{Dist},freqs::Union{Real,AbstractVector{<:Real}},
         end
         
         R[j] = T[1,2]/T[2,2]
-        B[j] = M[1,1]+M[1,2]-(M[2,1]+M[2,2])*T[1,2]/T[2,2]
+        B[j] = abs2(M[1,1]+M[1,2]-(M[2,1]+M[2,2])*T[1,2]/T[2,2])
 
         copyto!(M,S)
         T .= 1.0+0.0im; T[1,1] += nd; T[2,2] += nd; T[2,1] -= nd; T[1,2] -= nd; T .*= 0.5
@@ -80,7 +80,7 @@ transfer_matrix(freqs::Union{Real,AbstractVector{<:Real}},distances::AbstractVec
 # transfer matrix algorithm for position space input
 function transfer_matrix(::Type{Pos},freqs::Union{Real,AbstractVector{<:Real}},
         position::AbstractVector{<:Real};
-        eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)::Matrix{ComplexF64}
+        eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)
 
     ϵ  = eps*(1.0-1.0im*tand)
     nd = sqrt(ϵ); nm = complex(nm)
@@ -88,7 +88,7 @@ function transfer_matrix(::Type{Pos},freqs::Union{Real,AbstractVector{<:Real}},
     A  = 1-1/ϵ
     A0 = 1-1/ϵm
 
-    R = Matrix{ComplexF64}(undef,length(freqs))
+    R = Vector{ComplexF64}(undef,length(freqs))
     B = similar(R)
 
     Gd = SMatrix{2,2,ComplexF64}((1+nd)/2,   (1-nd)/2,   (1-nd)/2,   (1+nd)/2)
@@ -131,7 +131,7 @@ function transfer_matrix(::Type{Pos},freqs::Union{Real,AbstractVector{<:Real}},
         end
         
         R[j] = T[1,2]/T[2,2]
-        B[j] = M[1,1]+M[1,2]-(M[2,1]+M[2,2])*T[1,2]/T[2,2]
+        B[j] = abs2(M[1,1]+M[1,2]-(M[2,1]+M[2,2])*T[1,2]/T[2,2])
 
         copyto!(M,S)
         # T .= 1.0+0.0im; T[1,1] += nd; T[2,2] += nd; T[2,1] -= nd; T[1,2] -= nd; T .*= 0.5

@@ -1,7 +1,9 @@
 
 
 """
-Test
+Implementation of transfer matrix algorithm for
+computation of reflectivity and boostfactor
+of a MADMAX-like booster setup in 1d.
 """
 module TM_Test
 
