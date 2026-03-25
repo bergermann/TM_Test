@@ -23,7 +23,7 @@ function transfer_matrix(::Type{Dist},freqs::Union{Real,AbstractVector{<:Real}},
     A0 = 1-1/ϵm
 
     R = Vector{ComplexF64}(undef,length(freqs))
-    B = similar(R)
+    B = Vector{Float64}(undef,length(freqs))
 
     Gd = SMatrix{2,2,ComplexF64}((1+nd)/2,   (1-nd)/2,   (1-nd)/2,   (1+nd)/2)
     Gv = SMatrix{2,2,ComplexF64}((nd+1)/2nd, (nd-1)/2nd, (nd-1)/2nd, (nd+1)/2nd)
@@ -89,7 +89,7 @@ function transfer_matrix(::Type{Pos},freqs::Union{Real,AbstractVector{<:Real}},
     A0 = 1-1/ϵm
 
     R = Vector{ComplexF64}(undef,length(freqs))
-    B = similar(R)
+    B = Vector{Float64}(undef,length(freqs))
 
     Gd = SMatrix{2,2,ComplexF64}((1+nd)/2,   (1-nd)/2,   (1-nd)/2,   (1+nd)/2)
     Gv = SMatrix{2,2,ComplexF64}((nd+1)/2nd, (nd-1)/2nd, (nd-1)/2nd, (nd+1)/2nd)
@@ -157,13 +157,21 @@ Omitting `Space` defaults to distance space.
 #Examples
 ```jldoctest
 julia> ref, boost = transfer_matrix(Dist,22e9:0.01e9:22.05e9,[1,2,3,4]*1e-3)
-6×2 Matrix{ComplexF64}:
- -0.920801+0.390032im  0.572322-0.116214im
- -0.920395+0.39099im    0.57135-0.116326im
- -0.919987+0.39195im   0.570373-0.116437im
- -0.919576+0.392912im  0.569392-0.116547im
- -0.919163+0.393876im  0.568408-0.116656im
- -0.918749+0.394843im  0.567419-0.116764im
+(ComplexF64[
+ -0.9208011629309648 + 0.3900323298714899im 
+ -0.9203949732331749 + 0.3909898889320582im 
+ -0.9199866293633413 + 0.39194974396302146im
+ -0.9195761162569096 + 0.392911906678658im
+ -0.9191634187090357 + 0.39387638886726645im
+ -0.9187485213729765 + 0.39484320239174653im],
+ Float64[
+ 0.34105872984599983
+ 0.339972315462861
+ 0.33888304718993706
+ 0.33779091882570444
+ 0.3366959242101794
+ 0.3355980572261133],
+)
 ```
 """ transfer_matrix
 
