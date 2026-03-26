@@ -144,9 +144,9 @@ end
 
 
 @doc """
-transfer_matrix(::Type{Space},freqs::Union{Real,AbstractVector{<:Real}},
-    disc_configuration::AbstractVector{<:Real};
-    eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)::Matrix{ComplexF64}
+    transfer_matrix(::Type{Space},freqs::Union{Real,AbstractVector{<:Real}},
+        disc_configuration::AbstractVector{<:Real};
+        eps::Real=24.0,tand::Real=0.0,thickness::Real=1e-3,nm::Real=1e15)
 
 Return vectors containing (complex) reflectivity and boost of the
 [transfer matrix algorithm](https://arxiv.org/pdf/1612.07057) for a disc system.
